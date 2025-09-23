@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.venv/
+.env
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Tools & outputs
+tools/
+*.log
+*.tmp
+ipscan_export.tmp
+angry_scan_result.txt
+
+# Sensitive / local
+devices.json
+config.json
