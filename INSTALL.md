@@ -3,5 +3,5 @@
 3. installa Java
 4. Ejecuta:
 ```
-python start.py
+python main.py
 ```

@@ -6,7 +6,6 @@ Punto de entrada: `main.py`.
 **Autor:** PutxiMaus
 
 ## Estructura principal
-- `start.py` — Launcher de la aplicación.
 - `main.py` — aplicación principal (Tkinter).
 - `adb_commands.py` — helpers ADB usados por la app.
 - `bat_sources/` — scripts .bat auxiliares antiguos.
