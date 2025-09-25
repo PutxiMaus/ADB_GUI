@@ -5,7 +5,7 @@ def run_adb(cmd):
     if isinstance(cmd, str):
         cmd = cmd.split()
     try:
-        result = subprocess.run(["adb"] + cmd, capture_output=True, text=True)
+        result = subprocess.run(["adb", "devices"] + cmd, capture_output=True, text=True)
         output = result.stdout.strip()
         errors = result.stderr.strip()
         return (output + ("\n" + errors if errors else "")).strip()

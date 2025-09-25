@@ -7,7 +7,19 @@ import threading
 import time
 import socket
 import tkinter as tk
+import shutil
 from tkinter import ttk, simpledialog, messagebox, filedialog, colorchooser
+from pathlib import Path  
+
+# Ruta del proyecto = carpeta donde está este main.py
+BASE_DIR = Path(__file__).resolve().parent
+
+# Añadir la carpeta del proyecto al PATH solo para este proceso (temporal)
+os.environ["PATH"] = str(BASE_DIR) + os.pathsep + os.environ.get("PATH", "")
+
+print("DEBUG: PATH inicial (comienzo):")
+print(os.environ.get("PATH"))
+print("DEBUG: comprobar adb con shutil.which ->", shutil.which("adb"))
 
 # Importar helpers (asegúrate de tener setup_tools.py y adb_commands.py en el proyecto)
 try:
@@ -24,24 +36,23 @@ except Exception:
 # ----------------------
 # Config / Globals
 # ----------------------
-PROJECT_ROOT = os.getcwd()
-PERFILES_FILE = os.path.join(PROJECT_ROOT, "devices.json")
+PROJECT_ROOT = BASE_DIR
+PERFILES_FILE = PROJECT_ROOT / "devices.json"
 perfiles = {}
 
 _scrcpy_proc = None
 _screenrec_proc = None
 
-# Intentar asegurar herramientas (solo en Windows, no bloquear si falla)
 if setup_tools:
     try:
-        setup_tools.ensure_tools()
+        setup_tools.ensure_tools(str(BASE_DIR))
     except Exception as e:
         print("setup_tools.ensure_tools() fallo:", e)
 
 # ----------------------
 # Configuración persistente
 # ----------------------
-CONFIG_FILE = "config.json"
+CONFIG_FILE = BASE_DIR / "config.json"
 config = {
     "theme": "light",   # "light" o "dark"
     "show_log": True    # mostrar/ocultar consola
@@ -900,3 +911,4 @@ apply_theme(root)
 
 # Lanzar la app
 root.mainloop()
+
