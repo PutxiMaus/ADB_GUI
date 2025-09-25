@@ -5,4 +5,19 @@
         "ip": "",
         "notes": "",
         "color": ""
+    },
+    "motorola": {
+        "mac": "6a-a7-0f-9f-60-cb",
+        "port": 5555,
+        "ip": "",
+        "notes": "",
+        "color": null
+    },
+    "motorola pant": {
+        "mac": "ca-35-d9-a3-9f-06",
+        "port": 5555,
+        "ip": "",
+        "notes": "",
+        "color": null
+    }
 }

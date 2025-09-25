@@ -1,11 +1,17 @@
 import subprocess
+from pathlib import Path
+import os
+
+# Usar adb portable desde tools
+BASE_DIR = Path(__file__).resolve().parent
+ADB_PATH = BASE_DIR / "tools" / "platform-tools" / "adb.exe"
 
 def run_adb(cmd):
-    """Ejecuta un comando adb y devuelve salida (stdout + stderr)."""
+    """Ejecuta un comando adb desde tools/platform-tools"""
     if isinstance(cmd, str):
         cmd = cmd.split()
     try:
-        result = subprocess.run(["adb", "devices"] + cmd, capture_output=True, text=True)
+        result = subprocess.run([str(ADB_PATH)] + cmd, capture_output=True, text=True)
         output = result.stdout.strip()
         errors = result.stderr.strip()
         return (output + ("\n" + errors if errors else "")).strip()

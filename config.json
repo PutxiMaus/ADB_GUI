@@ -1,5 +1,5 @@
 {
     "theme_bg": "#000000",
     "theme": "dark",
-    "show_log": false
+    "show_log": true
 }

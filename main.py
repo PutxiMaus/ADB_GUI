@@ -1,37 +1,10 @@
-import os
-import sys
-import json
-import re
-import subprocess
-import threading
-import time
-import socket
-import tkinter as tk
-import shutil
+import os, sys, json, re, subprocess, threading, time, socket, shutil, tkinter as tk
 from tkinter import ttk, simpledialog, messagebox, filedialog, colorchooser
 from pathlib import Path  
 
-# Ruta del proyecto = carpeta donde está este main.py
-BASE_DIR = Path(__file__).resolve().parent
-
-# Añadir la carpeta del proyecto al PATH solo para este proceso (temporal)
-os.environ["PATH"] = str(BASE_DIR) + os.pathsep + os.environ.get("PATH", "")
-
-print("DEBUG: PATH inicial (comienzo):")
-print(os.environ.get("PATH"))
-print("DEBUG: comprobar adb con shutil.which ->", shutil.which("adb"))
-
-# Importar helpers (asegúrate de tener setup_tools.py y adb_commands.py en el proyecto)
-try:
-    import setup_tools
-except Exception as e:
-    setup_tools = None
-    print("Aviso: setup_tools no disponible:", e)
-
-try:
-    import adb_commands as adb
-except Exception:
-    adb = None
+BASE_DIR = Path(__file__).parent.resolve()
+tools_dir = BASE_DIR / "tools" / "platform-tools"
+os.environ["PATH"] = str(tools_dir) + os.pathsep + os.environ.get("PATH", "")
 
 # ----------------------
 # Config / Globals
@@ -42,12 +15,6 @@ perfiles = {}
 
 _scrcpy_proc = None
 _screenrec_proc = None
-
-if setup_tools:
-    try:
-        setup_tools.ensure_tools(str(BASE_DIR))
-    except Exception as e:
-        print("setup_tools.ensure_tools() fallo:", e)
 
 # ----------------------
 # Configuración persistente
@@ -72,7 +39,7 @@ def save_config():
         with open(CONFIG_FILE, "w", encoding="utf-8") as f:
             json.dump(config, f, indent=4)
     except Exception as e:
-        print("Error guardando config:", e)
+        gui_log("Error guardando config:", e)
 
 def apply_theme(root):
     theme = config.get("theme", "light")
@@ -392,13 +359,13 @@ def gui_log(msg, level="info"):
         try:
             root.after(0, lambda: _append_log(msg, level))
         except Exception:
-            print(msg)
+            gui_log(msg)
     else:
-        print(msg)
+        gui_log(msg)
 
 def _append_log(msg, level="info"):
     if not getattr(text_log, "winfo_exists", lambda: True)():
-        print(msg)
+        gui_log(msg)
         return
 
     theme = config.get("theme", "light")
